@@ -1,0 +1,52 @@
+$color-primary: #333;
+$color-secondary: #777;
+$color-tertiary: #aaa;
+$color-black: #000;
+$color-white: #fff;
+
+$font-primary: sans-serif;
+$font-secondary: serif;
+
+$transition-time: 100ms;
+
+body {
+  margin: 0;
+}
+
+nav {
+  background-color: $color-primary;
+  .container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: $font-primary;
+    color: $color-tertiary;
+    padding: 20px 0;
+    a {
+      color: $color-tertiary;
+      text-decoration: none;
+      transition: $transition-time;
+      &:hover {
+        color: $color-secondary;
+      }
+    }
+    h1 {
+      font-size: 24px;
+      margin: 0;
+    }
+    ul {
+      padding: 0;
+      margin: 0;
+      display: flex;
+      li {
+        list-style: none;
+        margin: 0 10px;
+      }
+    }
+  }
+}
+
+.container {
+  width: 90%;
+  margin: 0 auto;
+}

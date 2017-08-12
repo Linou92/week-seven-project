@@ -2,13 +2,14 @@ const express = require('express'),
       app = express(),
       bodyParser = require('body-parser'),
       ejs = require('ejs'),
-      local = require('passport-local'),
-      mongoose = require('mongoose'),
-      passport = require('passport'),
-      session = require('express-session'),
-      validator = require('express-validator');
+      mongoose = require('mongoose');
 
 let port = process.env.PORT || 3000;
+
+mongoose.connect('mongodb://localhost:27017/code_snippets', { useMongoClient: true});
+mongoose.Promise = global.Promise;
+
+// const auth = passport.authenticate('local');
 
 app.set('view engine', 'ejs');
 
