@@ -3,11 +3,28 @@
 <div class="body">
 
   <div class="container">
-    <ul>
-      <% snippets.forEach((snippet) => { %>
-        <li><%= snippet.title %></li>
-      <% }) %>
-    </ul>
+    <% snippets.forEach((snippet) => { %>
+      <div class="snippet">
+        <h2><%= snippet.title %></h2>
+        <h3><%= snippet.language %></h3>
+        <h4><%= snippet.createdAt %></h4>
+        <section class="snippet-code">
+          <pre><%= snippet.body %></pre>
+        </section>
+        <section class="snippet-notes">
+          <p><%= snippet.notes %></p>
+        </section>
+        <% if (snippet.tags.length > 0 && snippet.tags[0] !== '') { %>
+          <section class="snippet-tags">
+            <p>
+              <% snippet.tags.forEach((tag) => { %>
+                <span class="single-tag"><%= tag %></span>
+                <% }) %>
+              </p>
+            </section>
+        <% } %>
+      </div>
+    <% }) %>
   </div>
 
 </div>

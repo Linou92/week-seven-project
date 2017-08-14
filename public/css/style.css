@@ -33,7 +33,8 @@ nav {
         margin: 0 10px; }
 
 .body {
-  flex-grow: 1; }
+  flex-grow: 1;
+  margin-bottom: 30px; }
 
 .container {
   width: 90%;
@@ -54,6 +55,19 @@ nav {
   margin: 15px 0 5px; }
 .add-snippet-form textarea {
   resize: none; }
+
+.snippet {
+  max-width: 600px;
+  margin: 0 auto;
+  border-bottom: 2px solid #333; }
+  .snippet .snippet-code {
+    background-color: #aaa;
+    border: 1px solid #333;
+    padding: 10px; }
+  .snippet .single-tag {
+    background-color: #aaa;
+    border: 1px solid #333;
+    padding: 3px; }
 
 footer {
   background-color: #333;

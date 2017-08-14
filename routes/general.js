@@ -30,7 +30,7 @@ router.post('/add_snippet', (req, res) => {
   console.log('no array', req.body);
   let tagsArr = req.body.tags.split(';');
 
-  // eliminate any white space at the beginning of each element in the array
+  // eliminate any white space at the beginning or end of each element in the array
   function clearSpace(arr) {
     let newArr = [];
     arr.forEach((item) => {
@@ -38,7 +38,13 @@ router.post('/add_snippet', (req, res) => {
         let newItem = item.slice(1, item.length);
         item = newItem;
       }
-      newArr.push(item);
+      while (item[item.length - 1] === ' ') {
+        let newItem = item.slice(0, item.length - 1);
+        item = newItem;
+      }
+      if (item !== '') {
+        newArr.push(item);
+      }
     });
     return newArr;
   };
@@ -84,7 +90,6 @@ router.get('/snippets/all', authRequired, (req, res) => {
 
 router.get('/profile', authRequired, (req, res) => {
   let userInfo = req.user;
-  console.log('IS USER OBJECT????', userInfo);
   res.render('profile', userInfo);
 });
 

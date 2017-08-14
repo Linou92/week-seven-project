@@ -53,6 +53,7 @@ nav {
 
 .body {
   flex-grow: 1;
+  margin-bottom: 30px;
 }
 
 .container {
@@ -80,6 +81,22 @@ nav {
   }
   textarea {
     resize: none;
+  }
+}
+
+.snippet {
+  max-width: 600px;
+  margin: 0 auto;
+  border-bottom: 2px solid $color-primary;
+  .snippet-code {
+    background-color: $color-tertiary;
+    border: 1px solid $color-primary;
+    padding: 10px;
+  }
+  .single-tag {
+    background-color: $color-tertiary;
+    border: 1px solid $color-primary;
+    padding: 3px;
   }
 }
 
