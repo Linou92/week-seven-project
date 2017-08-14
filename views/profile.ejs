@@ -1,0 +1,16 @@
+<% include partials/_loggedInHeader %>
+
+<div class="body">
+
+  <div class="container">
+    <ul>
+      <% snippets.forEach((snippet) => { %>
+        <li><%= snippet.title %></li>
+      <% }) %>
+    </ul>
+  </div>
+
+</div>
+
+
+<% include partials/_footer %>

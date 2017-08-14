@@ -10,7 +10,8 @@ const userSchema = new mongoose.Schema({
   passwordHash: {
     type: String,
     required: true
-  }
+  },
+  snippets: []
 });
 
 userSchema.virtual('password').get(function() {

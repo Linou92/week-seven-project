@@ -1,0 +1,52 @@
+<% include partials/_loggedInHeader %>
+
+<div class="body">
+
+  <div class="container">
+    <form class="add-snippet-form" action="/add_snippet" method="POST">
+      <div class="form-group">
+        <label for="title">Title:</label>
+        <input type="text" id="title" name="title">
+      </div>
+      <div class="form-group">
+        <label for="body">Code Snippet:</label>
+        <textarea id="body" name="body" rows="8" cols="80"></textarea>
+      </div>
+      <div class="form-group">
+        <label for="notes">Notes:</label>
+        <input type="text" id="notes" name="notes">
+      </div>
+      <div class="form-group">
+        <label for="language">Language:</label>
+        <select name="language">
+          <option value="c">C</option>
+          <option value="c-sharp">C#</option>
+          <option value="c-plus-plus">C++</option>
+          <option value="css">CSS</option>
+          <option value="html">HTML</option>
+          <option value="java">Java</option>
+          <option value="javascript">Javascript</option>
+          <option value="less">Less</option>
+          <option value="objective-c">Objective-C</option>
+          <option value="objective-c-plus-plus">Objective-C++</option>
+          <option value="perl">Perl</option>
+          <option value="php">PHP</option>
+          <option value="python">Python</option>
+          <option value="ruby">Ruby</option>
+          <option value="sass">Sass</option>
+          <option value="scss">SCSS</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="tags">Tags: (separate by semicolon)</label>
+        <input type="text" id="tags" name="tags">
+      </div>
+      <input type="submit" value="Add Snippet" />
+    </form>
+
+  </div>
+
+</div>
+
+
+<% include partials/_footer %>

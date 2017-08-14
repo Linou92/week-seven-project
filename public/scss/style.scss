@@ -11,10 +11,15 @@ $transition-time: 100ms;
 
 body {
   margin: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 100vh;
 }
 
 nav {
   background-color: $color-primary;
+  margin-bottom: 30px;
   .container {
     display: flex;
     align-items: center;
@@ -46,7 +51,40 @@ nav {
   }
 }
 
+.body {
+  flex-grow: 1;
+}
+
 .container {
   width: 90%;
   margin: 0 auto;
+}
+
+.errors {
+  border: 2px solid red;
+  background-color: rgba(255, 0, 0, 0.2);
+  color: red;
+  margin-top: 20px;
+  ul {
+    padding: 5px 10px;
+    li {
+      list-style: none;
+    }
+  }
+}
+
+.add-snippet-form {
+  label {
+    display: block;
+    margin: 15px 0 5px;
+  }
+  textarea {
+    resize: none;
+  }
+}
+
+footer {
+  background-color: $color-primary;
+  color: $color-tertiary;
+  text-align: center;
 }

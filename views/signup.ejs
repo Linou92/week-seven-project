@@ -1,12 +1,25 @@
 <% include partials/_header %>
 
-<div class="container">
-  <h1>Sign Up!</h1>
-  <form action="/signup" method="POST">
-    <input type="text" name="username" placeholder="Username" autofocus />
-    <input type="password" name="password" placeholder="password" />
-    <input type="submit" value="Sign Up" />
-  </form>
+<div class="body">
+
+  <div class="container">
+    <h1>Sign Up!</h1>
+    <form action="/signup" method="POST">
+      <input type="text" name="username" placeholder="Username" autofocus />
+      <input type="password" name="password" placeholder="password" />
+      <input type="submit" value="Sign Up" />
+    </form>
+    <% if (errors.length > 0) { %>
+      <div class="errors">
+        <ul>
+          <% errors.forEach((error) => { %>
+            <li><%= error %></li>
+          <% }) %>
+        </ul>
+      </div>
+    <% } %>
+  </div>
+  
 </div>
 
 <% include partials/_footer %>
