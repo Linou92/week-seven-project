@@ -19,11 +19,11 @@ function authRequired(req, res, next) {
 
 router.get('/home', authRequired, (req, res) => {
   console.log('the user', req.user);
-  res.render('home', req.user);
+  res.render('home');
 });
 
 router.get('/add_snippet', authRequired, (req, res) => {
-  res.render('add_snippet', req.user);
+  res.render('add_snippet');
 });
 
 router.post('/add_snippet', (req, res) => {
@@ -85,12 +85,82 @@ router.post('/add_snippet', (req, res) => {
 });
 
 router.get('/snippets/all', authRequired, (req, res) => {
-  res.render('all_snippets');
+  Snippet.find({}, (err, snippets) => {
+    if (err) {
+      console.log(err);
+      res.redirect('/');
+    } else {
+      console.log(snippets);
+      function compare(a, b) {
+        if (a.title < b.title) {
+          return -1;
+        } else if (a.title > b.title) {
+          return 1;
+        } else {
+          return 0;
+        }
+      }
+
+      snippets.sort(compare);
+      res.render('all_snippets', {snippets});
+    }
+  })
 });
 
 router.get('/profile', authRequired, (req, res) => {
   let userInfo = req.user;
   res.render('profile', userInfo);
+});
+
+router.post('/search_snippets', authRequired, (req, res) => {
+  let searchTerm = req.body.search;
+  let searchBy = req.body.search_type;
+  Snippet.find({}, (err, snippets) => {
+    if (err) {
+      console.log(err);
+      res.redirect('/');
+    } else {
+      console.log(snippets);
+      function compare(a, b) {
+        if (a.title < b.title) {
+          return -1;
+        } else if (a.title > b.title) {
+          return 1;
+        } else {
+          return 0;
+        }
+      }
+
+      snippets.sort(compare);
+      console.log('SEARCH BY=====================', searchBy);
+      res.render('search_snippets', {snippets, searchTerm, searchBy});
+    }
+  })
+})
+
+router.get('/snippets/:user', authRequired, (req, res) => {
+  let searchBy = req.params.user;
+  Snippet.find({}, (err, snippets) => {
+    if (err) {
+      console.log(err);
+      res.redirect('/');
+    } else {
+      console.log(snippets);
+      function compare(a, b) {
+        if (a.title < b.title) {
+          return -1;
+        } else if (a.title > b.title) {
+          return 1;
+        } else {
+          return 0;
+        }
+      }
+
+      snippets.sort(compare);
+      console.log('SEARCH BY=====================', searchBy);
+      res.render('user', {snippets, searchBy});
+    }
+  })
 });
 
 module.exports = router;

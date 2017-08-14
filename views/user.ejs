@@ -1,0 +1,53 @@
+<% include partials/_loggedInHeader %>
+
+<div class="body">
+
+  <div class="container">
+    <form class="search-form" action="/search_snippets" method="POST">
+      <input type="text" name="search" placeholder="Search snippets" />
+      <select name="search_type">
+        <option value="title">Title</option>
+        <option value="language">Language</option>
+        <option value="tag">Tags</option>
+      </select>
+      <button type="submit">Search</button>
+    </form>
+
+    <button onclick="window.location.href='/snippets/all'">All</button>
+
+    <h1>Searching for Snippets by <%= searchBy %></h1>
+
+    <% snippets.forEach((snippet) => { %>
+      <% snippet.tag = snippet.tags.join('') %>
+      <% if (snippet.creator.toLowerCase()) === searchBy) { %>
+
+        <div class="snippet">
+          <h2><%= snippet.title %></h2>
+          <h3><%= snippet.language %></h3>
+          <h4><%= snippet.creator %> - <%= snippet.createdAt %></h4>
+          <section class="snippet-code">
+            <pre><%= snippet.body %></pre>
+          </section>
+          <section class="snippet-notes">
+            <p><%= snippet.notes %></p>
+          </section>
+          <% if (snippet.tags.length > 0 && snippet.tags[0] !== '') { %>
+            <section class="snippet-tags">
+              <p>
+                <% snippet.tags.forEach((tag) => { %>
+                  <span class="single-tag"><%= tag %></span>
+                <% }) %>
+              </p>
+            </section>
+          <% } %>
+        </div>
+
+      <% } %>
+    <% }) %>
+
+  </div>
+
+</div>
+
+
+<% include partials/_footer %>=
