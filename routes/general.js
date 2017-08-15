@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const mongoose = require('mongoose');
+const { Client } = mongoose;
 
 const User = require('../models/users');
 const Snippet = require('../models/snippets');
@@ -297,6 +298,12 @@ router.post('/delete/:snippetid', (req, res) => {
       console.log(err);
     };
     res.redirect('/profile');
+  });
+});
+
+router.get('/api/codesnippets', (req, res) => {
+  Snippet.find({}).then((results) => {
+    res.json(results);
   });
 });
 
