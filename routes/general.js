@@ -225,7 +225,14 @@ router.get('/snippets/:user', authRequired, (req, res) => {
 
       snippets.sort(compare);
       console.log('SEARCH BY=====================', searchBy);
-      res.render('search_snippets', {snippets, searchTerm, searchBy});
+      let data = {
+        snippets,
+        searchTerm,
+        searchBy,
+        user: req.user.username
+      }
+
+      res.render('search_snippets', data);
     }
   })
 });
