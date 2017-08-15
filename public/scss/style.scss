@@ -5,7 +5,7 @@ $color-black: #000;
 $color-white: #F0F0F0;
 
 $font-primary: sans-serif;
-$font-secondary: serif;
+$font-secondary: Helvetica, sans-serif;
 
 $transition-time: 100ms;
 
@@ -15,6 +15,7 @@ body {
   flex-direction: column;
   justify-content: space-between;
   min-height: 100vh;
+  font-family: $font-secondary;
 }
 
 nav {
@@ -75,6 +76,10 @@ nav {
   }
 }
 
+form {
+  display: inline;
+}
+
 .add-snippet-form {
   label {
     display: block;
@@ -89,6 +94,16 @@ nav {
   max-width: 600px;
   margin: 0 auto;
   border-bottom: 2px solid $color-primary;
+  h2 {
+    a {
+      font-size: 0.7em;
+      text-decoration: none;
+      color: $color-tertiary;
+      &:hover {
+        color: $color-secondary
+      }
+    }
+  }
   .snippet-code {
     background-color: $color-primary;
     border: 1px solid $color-primary;
@@ -104,6 +119,33 @@ nav {
 
 .search-form {
   display: inline;
+}
+
+@mixin button($color) {
+  background: transparent;
+  font-size: 18px;
+  padding: 5px;
+  border-radius: 3px;
+  margin: 10px;
+  border: 3px solid $color;
+  color: $color;
+  cursor: pointer;
+  &:hover {
+    background-color: $color;
+    color: $color-white;
+  }
+}
+
+.success-button {
+  @include button(green);
+}
+
+.terminate-button {
+  @include button(red);
+}
+
+#delete-page {
+  text-align: center;
 }
 
 footer {

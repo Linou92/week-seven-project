@@ -27,10 +27,9 @@
         <label for="tags">Tags: (separate by semicolon)</label>
         <input type="text" id="tags" name="tags" value="<%= snippet.tags %>" />
       </div>
-      <button type="submit">Edit Snippet</button>
+      <button class="success-button" type="submit">Edit Snippet</button>
     </form>
-
-    <button onclick="window.location.href='/delete/<%= snippet.id %>'">Delete Snippet</button>
+    <button class="terminate-button" onclick="window.location.href='/delete/<%= snippet.id %>'">Delete Snippet</button>
 
   </div>
 

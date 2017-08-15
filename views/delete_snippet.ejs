@@ -1,7 +1,15 @@
-<div class="container">
-  <h1>Are you sure you want to delete your code snippet "<%= snippet.title %>"?</h1>
-  <form action="/delete/<%= snippet._id %>" method="POST">
-    <button type="submit">YES, DELETE</button>
-  </form>
-  <button>NEVERMIND</button>
+<% include partials/_loggedInHeader %>
+
+<div class="body">
+
+  <div class="container" id="delete-page">
+    <h1>Are you sure you want to delete your code snippet "<%= snippet.title %>"?</h1>
+    <form action="/delete/<%= snippet._id %>" method="POST">
+      <button class="terminate-button" type="submit">YES, DELETE</button>
+    </form>
+    <button class="success-button" onclick="window.location.href='/snippets/all'">NEVERMIND</button>
+  </div>
+
 </div>
+
+<% include partials/_footer %>

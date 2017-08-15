@@ -3,7 +3,8 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  min-height: 100vh; }
+  min-height: 100vh;
+  font-family: Helvetica, sans-serif; }
 
 nav {
   background-color: #333;
@@ -51,6 +52,9 @@ nav {
     .errors ul li {
       list-style: none; }
 
+form {
+  display: inline; }
+
 .add-snippet-form label {
   display: block;
   margin: 15px 0 5px; }
@@ -61,6 +65,12 @@ nav {
   max-width: 600px;
   margin: 0 auto;
   border-bottom: 2px solid #333; }
+  .snippet h2 a {
+    font-size: 0.7em;
+    text-decoration: none;
+    color: #aaa; }
+    .snippet h2 a:hover {
+      color: #777; }
   .snippet .snippet-code {
     background-color: #333;
     border: 1px solid #333;
@@ -73,6 +83,35 @@ nav {
 
 .search-form {
   display: inline; }
+
+.success-button {
+  background: transparent;
+  font-size: 18px;
+  padding: 5px;
+  border-radius: 3px;
+  margin: 10px;
+  border: 3px solid green;
+  color: green;
+  cursor: pointer; }
+  .success-button:hover {
+    background-color: green;
+    color: #F0F0F0; }
+
+.terminate-button {
+  background: transparent;
+  font-size: 18px;
+  padding: 5px;
+  border-radius: 3px;
+  margin: 10px;
+  border: 3px solid red;
+  color: red;
+  cursor: pointer; }
+  .terminate-button:hover {
+    background-color: red;
+    color: #F0F0F0; }
+
+#delete-page {
+  text-align: center; }
 
 footer {
   background-color: #333;
