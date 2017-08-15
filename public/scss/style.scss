@@ -2,7 +2,7 @@ $color-primary: #333;
 $color-secondary: #777;
 $color-tertiary: #aaa;
 $color-black: #000;
-$color-white: #fff;
+$color-white: #F0F0F0;
 
 $font-primary: sans-serif;
 $font-secondary: serif;
@@ -31,8 +31,9 @@ nav {
       color: $color-tertiary;
       text-decoration: none;
       transition: $transition-time;
+      cursor: pointer;
       &:hover {
-        color: $color-secondary;
+        color: $color-white;
       }
     }
     h1 {
@@ -89,9 +90,10 @@ nav {
   margin: 0 auto;
   border-bottom: 2px solid $color-primary;
   .snippet-code {
-    background-color: $color-tertiary;
+    background-color: $color-primary;
     border: 1px solid $color-primary;
     padding: 10px;
+    color: $color-white;
   }
   .single-tag {
     background-color: $color-tertiary;

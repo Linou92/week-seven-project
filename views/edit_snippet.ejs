@@ -1,0 +1,40 @@
+<% include partials/_loggedInHeader %>
+
+<div class="body">
+
+  <div class="container">
+    <form class="add-snippet-form" action="/add_snippet" method="POST">
+      <div class="form-group">
+        <label for="title">Title:</label>
+        <input type="text" id="title" name="title" value="<%= snippet.title %>" />
+      </div>
+      <div class="form-group">
+        <label for="body">Code Snippet:</label>
+        <textarea id="body" name="body" rows="8" cols="80"><%= snippet.body %></textarea>
+      </div>
+      <div class="form-group">
+        <label for="notes">Notes:</label>
+        <input type="text" id="notes" name="notes" value="<%= snippet.notes %>" />
+      </div>
+      <div class="form-group">
+        <label for="language">Language:</label>
+        <select name="language">
+          <%- options %>
+        </select>
+      </div>
+      <div class="form-group">
+        <% snippet.tags = snippet.tags.join('; ') %>
+        <label for="tags">Tags: (separate by semicolon)</label>
+        <input type="text" id="tags" name="tags" value="<%= snippet.tags %>" />
+      </div>
+      <button type="submit">Edit Snippet</button>
+    </form>
+
+    <button onclick="window.location.href='/delete/<%= snippet.id %>'">Delete Snippet</button>
+
+  </div>
+
+</div>
+
+
+<% include partials/_footer %>

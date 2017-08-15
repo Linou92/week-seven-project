@@ -17,9 +17,13 @@
 
     <% snippets.forEach((snippet) => { %>
       <div class="snippet">
-        <h2><%= snippet.title %></h2>
+        <h2><%= snippet.title %> -
+          <% if (user === snippet.creator) { %>
+            <a href="/edit/<%= snippet._id %>">EDIT</a>
+          <% } %>
+        </h2>
         <h3><%= snippet.language %></h3>
-        <h4><%= snippet.creator %> - <%= snippet.createdAt %></h4>
+        <h4><a class="creator" href="/snippets/<%= snippet.creator %>"><%= snippet.creator %></a> - <%= snippet.createdAt %></h4>
         <section class="snippet-code">
           <pre><%= snippet.body %></pre>
         </section>
@@ -30,7 +34,7 @@
           <section class="snippet-tags">
             <p>
               <% snippet.tags.forEach((tag) => { %>
-                <span class="single-tag"><%= tag %></span>
+                <button onclick="window.location.href='/tags/<%= tag %>'" class="single-tag"><%= tag %></button>
                 <% }) %>
               </p>
             </section>

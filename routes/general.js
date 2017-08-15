@@ -19,7 +19,7 @@ function authRequired(req, res, next) {
 
 router.get('/home', authRequired, (req, res) => {
   console.log('the user', req.user);
-  res.render('home');
+  res.render('home', req.user);
 });
 
 router.get('/add_snippet', authRequired, (req, res) => {
@@ -102,14 +102,39 @@ router.get('/snippets/all', authRequired, (req, res) => {
       }
 
       snippets.sort(compare);
-      res.render('all_snippets', {snippets});
+      let data = {
+        snippets,
+        user: req.user.username
+      }
+      res.render('all_snippets', data);
     }
   })
 });
 
 router.get('/profile', authRequired, (req, res) => {
   let userInfo = req.user;
-  res.render('profile', userInfo);
+  console.log('PROFILE INFO====================================', userInfo);
+  Snippet.find({ creator: userInfo.username }, (err, snippets) => {
+    if (err) {
+      console.log(err);
+      res.redirect('/');
+    } else {
+      console.log(snippets);
+      function compare(a, b) {
+        if (a.title < b.title) {
+          return -1;
+        } else if (a.title > b.title) {
+          return 1;
+        } else {
+          return 0;
+        }
+      }
+
+      snippets.sort(compare);
+
+      res.render('profile', { snippets });
+    }
+  })
 });
 
 router.post('/search_snippets', authRequired, (req, res) => {
@@ -133,13 +158,55 @@ router.post('/search_snippets', authRequired, (req, res) => {
 
       snippets.sort(compare);
       console.log('SEARCH BY=====================', searchBy);
-      res.render('search_snippets', {snippets, searchTerm, searchBy});
+
+      let data = {
+        snippets,
+        searchTerm,
+        searchBy,
+        user: req.user.username
+      }
+
+      res.render('search_snippets', data);
     }
   })
 })
 
+router.get('/tags/:searchterm', authRequired, (req, res) => {
+  let searchTerm = req.params.searchterm;
+  let searchBy = 'tag';
+  Snippet.find({}, (err, snippets) => {
+    if (err) {
+      console.log(err);
+      res.redirect('/');
+    } else {
+      console.log(snippets);
+      function compare(a, b) {
+        if (a.title < b.title) {
+          return -1;
+        } else if (a.title > b.title) {
+          return 1;
+        } else {
+          return 0;
+        }
+      }
+      snippets.sort(compare);
+
+      let data = {
+        snippets,
+        searchTerm,
+        searchBy,
+        user: req.user.username
+      }
+
+      console.log('SEARCH BY=====================', searchBy);
+      res.render('search_snippets', data);
+    }
+  })
+});
+
 router.get('/snippets/:user', authRequired, (req, res) => {
-  let searchBy = req.params.user;
+  let searchBy = 'creator';
+  let searchTerm = req.params.user;
   Snippet.find({}, (err, snippets) => {
     if (err) {
       console.log(err);
@@ -158,9 +225,72 @@ router.get('/snippets/:user', authRequired, (req, res) => {
 
       snippets.sort(compare);
       console.log('SEARCH BY=====================', searchBy);
-      res.render('user', {snippets, searchBy});
+      res.render('search_snippets', {snippets, searchTerm, searchBy});
     }
   })
+});
+
+router.get('/edit/:snippetid', authRequired, (req, res) => {
+  let snippetID = req.params.snippetid;
+  Snippet.findById(snippetID, (err, snippet) => {
+    if (err) {
+      console.log(err);
+      res.redirect('/profile');
+    } else {
+
+      let optionsArr = ['C', 'C#', 'C++', 'CSS', 'HTML', 'Java', 'Javascript', 'Less', 'Objective-C', 'Objective-C++', 'Perl', 'PHP', 'Python', 'Ruby', 'Sass', 'SCSS'];
+
+      function makeOptions(arr, val) {
+        let str = '';
+
+        arr.forEach((item) => {
+          if (val === item) {
+            str += `<option value="${ item }" selected>${ item }</option>`;
+          } else {
+            str += `<option value="${ item }">${ item }</option>`;
+          }
+        })
+
+        return str;
+      }
+
+      let data = {
+        snippet,
+        options: makeOptions(optionsArr, snippet.language)
+      };
+
+      console.log('SNIPPET TO BE EDITED', snippet);
+      res.render('edit_snippet', data);
+    };
+  });
+});
+
+router.get('/delete/:snippetid', authRequired, (req, res) => {
+  let snippetID = req.params.snippetid;
+  Snippet.findById(snippetID, (err, snippet) => {
+    if (err) {
+      console.log(err);
+      res.redirect('/profile');
+    } else {
+
+      let data = {
+        snippet,
+      };
+
+      console.log('SNIPPET TO BE DELETED', snippet);
+      res.render('delete_snippet', data);
+    };
+  });
+});
+
+router.post('/delete/:snippetid', (req, res) => {
+  let snippetID = req.params.snippetid;
+  Snippet.remove({ _id: snippetID }, (err) => {
+    if (err) {
+      console.log(err);
+    };
+    res.redirect('/profile');
+  });
 });
 
 module.exports = router;

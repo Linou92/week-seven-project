@@ -18,9 +18,10 @@ nav {
     nav .container a {
       color: #aaa;
       text-decoration: none;
-      transition: 100ms; }
+      transition: 100ms;
+      cursor: pointer; }
       nav .container a:hover {
-        color: #777; }
+        color: #F0F0F0; }
     nav .container h1 {
       font-size: 24px;
       margin: 0; }
@@ -61,9 +62,10 @@ nav {
   margin: 0 auto;
   border-bottom: 2px solid #333; }
   .snippet .snippet-code {
-    background-color: #aaa;
+    background-color: #333;
     border: 1px solid #333;
-    padding: 10px; }
+    padding: 10px;
+    color: #F0F0F0; }
   .snippet .single-tag {
     background-color: #aaa;
     border: 1px solid #333;

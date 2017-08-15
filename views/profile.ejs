@@ -5,7 +5,9 @@
   <div class="container">
     <% snippets.forEach((snippet) => { %>
       <div class="snippet">
-        <h2><%= snippet.title %></h2>
+        <h2><%= snippet.title %> -
+          <a href="/edit/<%= snippet._id %>">EDIT</a>
+        </h2>
         <h3><%= snippet.language %></h3>
         <h4><%= snippet.createdAt %></h4>
         <section class="snippet-code">
@@ -18,7 +20,7 @@
           <section class="snippet-tags">
             <p>
               <% snippet.tags.forEach((tag) => { %>
-                <span class="single-tag"><%= tag %></span>
+                <button onclick="window.location.href='/tags/<%= tag %>'" class="single-tag"><%= tag %></button>
                 <% }) %>
               </p>
             </section>
