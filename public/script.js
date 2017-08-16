@@ -19,8 +19,6 @@ stars.forEach((star) => {
       changeFavStatus('/removefav', snippetID);
     }
 
-
-
   });
 });
 
@@ -33,8 +31,10 @@ function changeFavStatus(url, id) {
     },
     method: 'POST',
     body: JSON.stringify(id)
-
-  }).then(() => {
+  }).then((response) => {
+    return response.json();
+  }).then((result) => {
+    console.log(result);
     console.log('AFTER FETCH', id);
   });
 

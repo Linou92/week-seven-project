@@ -364,9 +364,8 @@ router.post('/addfav', (req, res) => {
         user.save((error) => {
           if (error) {
             throw error;
-            // } else {
-            //   res.json(result);
           } else {
+            res.json(user);
             console.log('USER AFTER SAVE', user);
           }
         });
@@ -385,20 +384,30 @@ router.post('/removefav', (req, res) => {
     if (err) {
       throw err;
     } else {
-      User.findById(userID, (err, user) => {
+
+      User.findByIdAndUpdate(userID, { $pull : { favs : { _id: snippetID } } }, (err, result) => {
         if (err) {
           throw err;
         } else {
-          user.favs = user.favs.filter((fav) => fav._id != snippetID);
-          user.save((error) => {
-            if (error) {
-              throw err;
-            } else {
-              console.log('USER AFTER SAVE', user);
-            }
-          })
-        }
+          res.json(result);
+        };
       });
+
+
+      // User.findById(userID, (err, user) => {
+      //   if (err) {
+      //     throw err;
+      //   } else {
+      //     user.favs = user.favs.filter((fav) => fav._id != snippetID);
+      //     user.save((error) => {
+      //       if (error) {
+      //         throw err;
+      //       } else {
+      //         console.log('USER AFTER SAVE', user);
+      //       }
+      //     })
+      //   }
+      // });
     };
   });
 });

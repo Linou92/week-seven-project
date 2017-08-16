@@ -75,7 +75,8 @@ form {
     background-color: #333;
     border: 1px solid #333;
     padding: 10px;
-    color: #F0F0F0; }
+    color: #F0F0F0;
+    white-space: pre-wrap; }
   .snippet .single-tag {
     background-color: #aaa;
     border: 1px solid #333;
