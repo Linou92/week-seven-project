@@ -138,6 +138,41 @@ router.get('/profile', authRequired, (req, res) => {
   })
 });
 
+router.post('/search_profile_snippets', (req, res) => {
+  let userInfo = req.user;
+  let searchTerm = req.body.search;
+  let searchBy = req.body.search_type;
+  Snippet.find({ creator: userInfo.username }, (err, snippets) => {
+    if (err) {
+      console.log(err);
+      res.redirect('/');
+    } else {
+      console.log(snippets);
+      function compare(a, b) {
+        if (a.title < b.title) {
+          return -1;
+        } else if (a.title > b.title) {
+          return 1;
+        } else {
+          return 0;
+        }
+      }
+
+      snippets.sort(compare);
+      console.log('SEARCH BY=====================', searchBy);
+
+      let data = {
+        snippets,
+        searchTerm,
+        searchBy,
+        user: req.user.username
+      }
+
+      res.render('search_profile_snippets', data);
+    }
+  })
+});
+
 router.post('/search_snippets', authRequired, (req, res) => {
   let searchTerm = req.body.search;
   let searchBy = req.body.search_type;
