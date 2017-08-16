@@ -30,6 +30,7 @@ app.use(flash());
 require('./passportconfig').configure(passport);
 
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 app.use(expressValidator());
 app.use('/', require('./routes/general'));
 app.use('/', require('./routes/auth'));

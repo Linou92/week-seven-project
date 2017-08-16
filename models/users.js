@@ -11,7 +11,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  snippets: []
+  favs: []
 });
 
 userSchema.virtual('password').get(function() {

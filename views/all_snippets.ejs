@@ -15,13 +15,29 @@
 
     <button onclick="window.location.href='/snippets/all'">All</button>
 
+    <% let favsString = '' %>
+    <% favs.forEach((fav) => { %>
+      <% favsString += fav._id; %>
+    <% }) %>
     <% snippets.forEach((snippet) => { %>
-      <div class="snippet">
-        <h2><%= snippet.title %>
-          <% if (user === snippet.creator) { %>
-            - <a href="/edit/<%= snippet._id %>">EDIT</a>
-          <% } %>
-        </h2>
+      <div data-snippet-id="<%= snippet._id %>" class="snippet">
+        <% if (favsString.indexOf(snippet.id) != -1) { %>
+
+          <h2><i class="star fa fa-star" aria-hidden="true"></i> <%= snippet.title %>
+            <% if (user === snippet.creator) { %>
+              - <a href="/edit/<%= snippet._id %>">EDIT</a>
+              <% } %>
+            </h2>
+
+        <% } else { %>
+
+          <h2><i class="star fa fa-star-o" aria-hidden="true"></i> <%= snippet.title %>
+            <% if (user === snippet.creator) { %>
+              - <a href="/edit/<%= snippet._id %>">EDIT</a>
+              <% } %>
+            </h2>
+
+        <% } %>
         <h3><%= snippet.language %></h3>
         <h4><a class="creator" href="/snippets/<%= snippet.creator %>"><%= snippet.creator %></a> - <%= snippet.createdAt %></h4>
         <section class="snippet-code">

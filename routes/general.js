@@ -20,11 +20,16 @@ function authRequired(req, res, next) {
 
 router.get('/home', authRequired, (req, res) => {
   console.log('the user', req.user);
-  res.render('home', req.user);
+  let data = req.user;
+  data.userid = req.user._id;
+  res.render('home', data);
 });
 
 router.get('/add_snippet', authRequired, (req, res) => {
-  res.render('add_snippet');
+  data = {
+    userid: req.user._id
+  }
+  res.render('add_snippet', data);
 });
 
 router.post('/add_snippet', (req, res) => {
@@ -58,30 +63,14 @@ router.post('/add_snippet', (req, res) => {
 
   console.log('with array', snippet);
 
-  let newSnippet = Snippet.create(snippet, (err) => {
+  Snippet.create(snippet, (err, snippet) => {
     if (err) {
       console.log(err);
-      res.redirect('/add_snippet');
     } else {
-      User.findById(req.user._id, (err, user) => {
-        if (err) {
-          console.log(err);
-          res.redirect('/add_snippet');
-        } else {
-          user.snippets.push(snippet);
-          user.save((err) => {
-            if (err) {
-              console.log(err);
-              res.redirect('/add_snippet');
-            } else {
-              res.redirect('/home');
-            }
-          })
-        }
-      })
+      console.log(snippet);
+      res.redirect('/profile');
     }
   });
-
 
 });
 
@@ -105,7 +94,9 @@ router.get('/snippets/all', authRequired, (req, res) => {
       snippets.sort(compare);
       let data = {
         snippets,
-        user: req.user.username
+        user: req.user.username,
+        userid: req.user._id,
+        favs: req.user.favs
       }
       res.render('all_snippets', data);
     }
@@ -133,7 +124,12 @@ router.get('/profile', authRequired, (req, res) => {
 
       snippets.sort(compare);
 
-      res.render('profile', { snippets });
+      let data = {
+        snippets,
+        userid: req.user._id
+      }
+
+      res.render('profile', data);
     }
   })
 });
@@ -165,7 +161,8 @@ router.post('/search_profile_snippets', (req, res) => {
         snippets,
         searchTerm,
         searchBy,
-        user: req.user.username
+        user: req.user.username,
+        userid: req.user._id
       }
 
       res.render('search_profile_snippets', data);
@@ -199,7 +196,8 @@ router.post('/search_snippets', authRequired, (req, res) => {
         snippets,
         searchTerm,
         searchBy,
-        user: req.user.username
+        user: req.user.username,
+        userid: req.user._id
       }
 
       res.render('search_snippets', data);
@@ -231,7 +229,8 @@ router.get('/tags/:searchterm', authRequired, (req, res) => {
         snippets,
         searchTerm,
         searchBy,
-        user: req.user.username
+        user: req.user.username,
+        userid: req.user._id
       }
 
       console.log('SEARCH BY=====================', searchBy);
@@ -265,7 +264,8 @@ router.get('/snippets/:user', authRequired, (req, res) => {
         snippets,
         searchTerm,
         searchBy,
-        user: req.user.username
+        user: req.user.username,
+        userid: req.user._id
       }
 
       res.render('search_snippets', data);
@@ -299,7 +299,8 @@ router.get('/edit/:snippetid', authRequired, (req, res) => {
 
       let data = {
         snippet,
-        options: makeOptions(optionsArr, snippet.language)
+        options: makeOptions(optionsArr, snippet.language),
+        userid: req.user._id
       };
 
       console.log('SNIPPET TO BE EDITED', snippet);
@@ -318,6 +319,7 @@ router.get('/delete/:snippetid', authRequired, (req, res) => {
 
       let data = {
         snippet,
+        userid: req.user._id
       };
 
       console.log('SNIPPET TO BE DELETED', snippet);
@@ -339,6 +341,65 @@ router.post('/delete/:snippetid', (req, res) => {
 router.get('/api/codesnippets', (req, res) => {
   Snippet.find({}).then((results) => {
     res.json(results);
+  });
+});
+
+router.post('/addfav', (req, res) => {
+  const snippetID = req.body.id;
+  const userID = req.body.userID;
+  // res.json();
+  // User.update({ _id: req.user._id }, )
+  Snippet.findById(req.body.id, (err, favSnippet) => {
+    if (err) {
+      throw err;
+    } else {
+      User.findById(userID, (err, user) => {
+        if (err) {
+          throw err;
+        } else {
+          user.favs.push(favSnippet);
+        }
+        console.log('FAVORITE SNIPPET', favSnippet);
+        console.log('USER BEFORE SAVE', user);
+        user.save((error) => {
+          if (error) {
+            throw error;
+            // } else {
+            //   res.json(result);
+          } else {
+            console.log('USER AFTER SAVE', user);
+          }
+        });
+      });
+
+    };
+  });
+
+});
+
+router.post('/removefav', (req, res) => {
+  const snippetID = req.body.id;
+  const userID = req.body.userID;
+
+  Snippet.findById(snippetID, (err, favSnippet) => {
+    if (err) {
+      throw err;
+    } else {
+      User.findById(userID, (err, user) => {
+        if (err) {
+          throw err;
+        } else {
+          user.favs = user.favs.filter((fav) => fav._id != snippetID);
+          user.save((error) => {
+            if (error) {
+              throw err;
+            } else {
+              console.log('USER AFTER SAVE', user);
+            }
+          })
+        }
+      });
+    };
   });
 });
 
