@@ -17,9 +17,9 @@
 
     <% snippets.forEach((snippet) => { %>
       <div class="snippet">
-        <h2><%= snippet.title %> -
+        <h2><%= snippet.title %>
           <% if (user === snippet.creator) { %>
-            <a href="/edit/<%= snippet._id %>">EDIT</a>
+            - <a href="/edit/<%= snippet._id %>">EDIT</a>
           <% } %>
         </h2>
         <h3><%= snippet.language %></h3>
