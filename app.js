@@ -34,6 +34,7 @@ app.use(bodyParser.json());
 app.use(expressValidator());
 app.use('/', require('./routes/general'));
 app.use('/', require('./routes/auth'));
+app.use('/', require('./routes/snippets'));
 
 app.listen(port, () => {
   console.log(`Your app is running on PORT ${ port }.`);
