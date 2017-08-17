@@ -172,33 +172,23 @@ router.post('/search_snippets/:username?', authRequired, (req, res) => {
 
 router.get('/tags/:searchterm', authRequired, (req, res) => {
   let searchTerm = req.params.searchterm;
+  let username = req.user.username;
   let searchBy = 'tag';
   Snippet.find({}, (err, snippets) => {
     if (err) {
       console.log(err);
       res.redirect('/');
     } else {
-      console.log(snippets);
-      function compare(a, b) {
-        if (a.title < b.title) {
-          return -1;
-        } else if (a.title > b.title) {
-          return 1;
-        } else {
-          return 0;
-        }
-      }
-      snippets.sort(compare);
-
+      sortArrByTitle(snippets);
       let data = {
         snippets,
         searchTerm,
         searchBy,
+        username,
         user: req.user.username,
         userid: req.user._id
       }
 
-      console.log('SEARCH BY=====================', searchBy);
       res.render('search_snippets', data);
     }
   })
@@ -213,19 +203,7 @@ router.get('/snippets/:user', authRequired, (req, res) => {
       console.log(err);
       res.redirect('/');
     } else {
-      console.log(snippets);
-      function compare(a, b) {
-        if (a.title < b.title) {
-          return -1;
-        } else if (a.title > b.title) {
-          return 1;
-        } else {
-          return 0;
-        }
-      }
-
-      snippets.sort(compare);
-      console.log('SEARCH BY=====================', searchBy);
+      sortArrByTitle(snippets);
       let data = {
         snippets,
         searchTerm,
@@ -270,7 +248,6 @@ router.get('/edit/:snippetid', authRequired, (req, res) => {
         userid: req.user._id
       };
 
-      console.log('SNIPPET TO BE EDITED', snippet);
       res.render('edit_snippet', data);
     };
   });
@@ -289,7 +266,6 @@ router.get('/delete/:snippetid', authRequired, (req, res) => {
         userid: req.user._id
       };
 
-      console.log('SNIPPET TO BE DELETED', snippet);
       res.render('delete_snippet', data);
     };
   });
@@ -299,7 +275,7 @@ router.post('/delete/:snippetid', (req, res) => {
   let snippetID = req.params.snippetid;
   Snippet.remove({ _id: snippetID }, (err) => {
     if (err) {
-      console.log(err);
+      throw err;
     };
     res.redirect('/profile');
   });
@@ -319,52 +295,90 @@ router.post('/addfav', (req, res) => {
       throw err;
     } else {
 
-      User.findById(userID, (err, user) => {
+      User.findByIdAndUpdate(userID, { $push: { favs: favSnippet } }, (err, user) => {
         if (err) {
           throw err;
         } else {
-          user.favs.push(favSnippet);
-        }
-        console.log('FAVORITE SNIPPET', favSnippet);
-        console.log('USER BEFORE SAVE', user);
-        user.save((error) => {
-          if (error) {
-            throw error;
-          } else {
-            res.json(user);
-            console.log('USER AFTER SAVE', user);
-          }
-        });
+          res.json(user);
+        };
       });
     };
   });
+});
 
+
+
+
+
+
+
+
+
+
+router.post('/addfav', (req, res) => {
+  const snippetID = req.body.id;
+  const userID = req.body.userID;
+  Snippet.findById(req.body.id, (err, favSnippet) => {
+    if (err) {
+      throw err;
+    } else {
+
+      User.findByIdAndUpdate(userID, { $push: { favs: favSnippet } }, (err, user) => {
+        if (err) {
+          throw err;
+        } else {
+          res.json(user);
+        };
+      });
+
+      // User.findById(userID, (err, user) => {
+      //   if (err) {
+      //     throw err;
+      //   } else {
+      //     user.favs.push(favSnippet);
+      //     user.save((error) => {
+      //       if (error) {
+      //         throw error;
+      //       } else {
+      //         res.json(user);
+      //       };
+      //     });
+      //   };
+      // });
+    };
+  });
 });
 
 router.post('/removefav', (req, res) => {
   const snippetID = req.body.id;
   const userID = req.body.userID;
-
   Snippet.findById(snippetID, (err, favSnippet) => {
     if (err) {
       throw err;
     } else {
 
-      User.findById(userID, (err, user) => {
+      User.findByIdAndUpdate(userID, { $pull: { favs: favSnippet } }, (err, user) => {
         if (err) {
           throw err;
         } else {
-          user.favs = user.favs.filter((fav) => fav._id != snippetID);
-          user.save((error, user) => {
-            if (error) {
-              throw err;
-            } else {
-              console.log('USER AFTER SAVE', user);
-              res.json(user)
-            }
-          })
-        }
+          res.json(user);
+        };
       });
+
+      // User.findById(userID, (err, user) => {
+      //   if (err) {
+      //     throw err;
+      //   } else {
+      //     user.favs = user.favs.filter((fav) => fav._id != snippetID);
+      //     user.save((error, user) => {
+      //       if (error) {
+      //         throw err;
+      //       } else {
+      //         res.json(user)
+      //       };
+      //     });
+      //   };
+      // });
     };
   });
 });
