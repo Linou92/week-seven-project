@@ -12,11 +12,11 @@ stars.forEach((star) => {
     if (star.classList.contains('fa-star-o')) {
       star.classList.remove('fa-star-o');
       star.classList.add('fa-star');
-      changeFavStatus('/addfav', snippetID);
+      changeFavStatus('/updatefavs/push', snippetID);
     } else if (star.classList.contains('fa-star')) {
       star.classList.remove('fa-star');
       star.classList.add('fa-star-o');
-      changeFavStatus('/removefav', snippetID);
+      changeFavStatus('/updatefavs/pull', snippetID);
     }
 
   });

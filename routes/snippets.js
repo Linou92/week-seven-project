@@ -26,15 +26,14 @@ function sortArrByTitle(arr) {
   arr.sort(compare);
 }
 
-router.get('/add_snippet', authRequired, (req, res) => {
+router.get('/snippet/add', authRequired, (req, res) => {
   data = {
     userid: req.user._id
   }
   res.render('add_snippet', data);
 });
 
-router.post('/add_snippet', (req, res) => {
-  console.log('no array', req.body);
+router.post('/snippet/add', (req, res) => {
   let tagsArr = req.body.tags.split(';');
 
   // eliminate any white space at the beginning or end of each element in the array
@@ -69,7 +68,6 @@ router.post('/add_snippet', (req, res) => {
       res.redirect('/profile');
     }
   });
-
 });
 
 router.get('/snippets/all', authRequired, (req, res) => {
@@ -112,31 +110,6 @@ router.get('/snippets/favs', authRequired, (req, res) => {
   });
 
 });
-
-// router.post('/search_profile_snippets', (req, res) => {
-//   let userInfo = req.user;
-//   let searchTerm = req.body.search;
-//   let searchBy = req.body.search_type;
-//   Snippet.find({ creator: userInfo.username }, (err, snippets) => {
-//     if (err) {
-//       throw err;
-//       res.redirect('/');
-//     } else {
-//
-//       sortArrByTitle(snippets);
-//
-//       let data = {
-//         snippets,
-//         searchTerm,
-//         searchBy,
-//         user: req.user.username,
-//         userid: req.user._id
-//       }
-//
-//       res.render('search_profile_snippets', data);
-//     }
-//   })
-// });
 
 router.post('/search_snippets/:username?', authRequired, (req, res) => {
   let userInfo = req.user;
@@ -194,7 +167,7 @@ router.get('/tags/:searchterm', authRequired, (req, res) => {
   })
 });
 
-router.get('/snippets/:user', authRequired, (req, res) => {
+router.get('/snippets/user/:user', authRequired, (req, res) => {
   let searchBy = 'creator';
   let searchTerm = req.params.user;
   let username = searchTerm;
@@ -253,31 +226,18 @@ router.get('/edit/:snippetid', authRequired, (req, res) => {
   });
 });
 
-router.get('/delete/:snippetid', authRequired, (req, res) => {
-  let snippetID = req.params.snippetid;
-  Snippet.findById(snippetID, (err, snippet) => {
-    if (err) {
-      console.log(err);
-      res.redirect('/profile');
-    } else {
-
-      let data = {
-        snippet,
-        userid: req.user._id
-      };
-
-      res.render('delete_snippet', data);
-    };
-  });
-});
-
 router.post('/delete/:snippetid', (req, res) => {
   let snippetID = req.params.snippetid;
   Snippet.remove({ _id: snippetID }, (err) => {
     if (err) {
       throw err;
-    };
-    res.redirect('/profile');
+    } else {
+      let data = {
+        userid: req.user._id,
+        username: req.user.username
+      }
+      res.redirect('/profile');
+    }
   });
 });
 
@@ -287,98 +247,27 @@ router.get('/api/codesnippets', (req, res) => {
   });
 });
 
-router.post('/addfav', (req, res) => {
+router.post('/updatefavs/:action', (req, res) => {
+  const action = req.params.action;
   const snippetID = req.body.id;
   const userID = req.body.userID;
+  let updateObject;
   Snippet.findById(req.body.id, (err, favSnippet) => {
     if (err) {
       throw err;
     } else {
-
-      User.findByIdAndUpdate(userID, { $push: { favs: favSnippet } }, (err, user) => {
+      if (action === 'pull') {
+        updateObject = { $pull: { favs: favSnippet } };
+      } else if (action === 'push') {
+        updateObject = { $push: { favs: favSnippet } };
+      }
+      User.findByIdAndUpdate(userID, updateObject, (err, user) => {
         if (err) {
           throw err;
         } else {
           res.json(user);
         };
       });
-    };
-  });
-});
-
-
-
-
-
-
-
-
-
-
-router.post('/addfav', (req, res) => {
-  const snippetID = req.body.id;
-  const userID = req.body.userID;
-  Snippet.findById(req.body.id, (err, favSnippet) => {
-    if (err) {
-      throw err;
-    } else {
-
-      User.findByIdAndUpdate(userID, { $push: { favs: favSnippet } }, (err, user) => {
-        if (err) {
-          throw err;
-        } else {
-          res.json(user);
-        };
-      });
-
-      // User.findById(userID, (err, user) => {
-      //   if (err) {
-      //     throw err;
-      //   } else {
-      //     user.favs.push(favSnippet);
-      //     user.save((error) => {
-      //       if (error) {
-      //         throw error;
-      //       } else {
-      //         res.json(user);
-      //       };
-      //     });
-      //   };
-      // });
-    };
-  });
-});
-
-router.post('/removefav', (req, res) => {
-  const snippetID = req.body.id;
-  const userID = req.body.userID;
-  Snippet.findById(snippetID, (err, favSnippet) => {
-    if (err) {
-      throw err;
-    } else {
-
-      User.findByIdAndUpdate(userID, { $pull: { favs: favSnippet } }, (err, user) => {
-        if (err) {
-          throw err;
-        } else {
-          res.json(user);
-        };
-      });
-
-      // User.findById(userID, (err, user) => {
-      //   if (err) {
-      //     throw err;
-      //   } else {
-      //     user.favs = user.favs.filter((fav) => fav._id != snippetID);
-      //     user.save((error, user) => {
-      //       if (error) {
-      //         throw err;
-      //       } else {
-      //         res.json(user)
-      //       };
-      //     });
-      //   };
-      // });
     };
   });
 });

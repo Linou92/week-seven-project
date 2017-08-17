@@ -29,7 +29,9 @@
       </div>
       <button class="success-button" type="submit">Edit Snippet</button>
     </form>
-    <button class="terminate-button" onclick="window.location.href='/delete/<%= snippet.id %>'">Delete Snippet</button>
+    <form action="/delete/<%= snippet.id %>" method="POST">
+      <button type="submit" class="terminate-button">Delete Snippet</button>
+    </form>
 
   </div>
 
