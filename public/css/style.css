@@ -41,6 +41,15 @@ nav {
 .container {
   width: 90%;
   margin: 0 auto; }
+  .container h1 {
+    text-align: center; }
+
+.index {
+  text-align: center; }
+  .index h1 {
+    font-size: 46px;
+    margin-top: 60px;
+    margin-bottom: 60px; }
 
 .errors {
   border: 2px solid red;
@@ -52,8 +61,35 @@ nav {
     .errors ul li {
       list-style: none; }
 
+.form-container {
+  width: 400px;
+  margin: 0 auto; }
+
 form {
-  display: inline; }
+  display: inline;
+  max-width: 300px; }
+  form input, form textarea, form select {
+    width: 100%;
+    font-size: 12px;
+    padding: 3px; }
+  form div {
+    display: inline; }
+
+.login-signup-form input {
+  font-size: 14px;
+  padding: 4px;
+  margin: 8px; }
+.login-signup-form button {
+  width: 100px; }
+
+.form-group {
+  display: block; }
+
+.float-left {
+  float: left; }
+
+.clear {
+  clear: both; }
 
 .add-snippet-form label {
   display: block;
@@ -84,6 +120,8 @@ form {
 
 .search-form {
   display: inline; }
+  .search-form input, .search-form select {
+    width: auto; }
 
 .success-button {
   background: transparent;
@@ -93,7 +131,8 @@ form {
   margin: 10px;
   border: 3px solid green;
   color: green;
-  cursor: pointer; }
+  cursor: pointer;
+  text-decoration: none; }
   .success-button:hover {
     background-color: green;
     color: #F0F0F0; }
@@ -106,9 +145,24 @@ form {
   margin: 10px;
   border: 3px solid red;
   color: red;
-  cursor: pointer; }
+  cursor: pointer;
+  text-decoration: none; }
   .terminate-button:hover {
     background-color: red;
+    color: #F0F0F0; }
+
+.index-button {
+  background: transparent;
+  font-size: 18px;
+  padding: 5px;
+  border-radius: 3px;
+  margin: 10px;
+  border: 3px solid #777;
+  color: #777;
+  cursor: pointer;
+  text-decoration: none; }
+  .index-button:hover {
+    background-color: #777;
     color: #F0F0F0; }
 
 #delete-page {

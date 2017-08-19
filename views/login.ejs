@@ -2,13 +2,19 @@
 
 <div class="body">
 
-  <div class="container">
-    <h1>Login</h1>
-    <form action="/login" method="POST">
-      <input type="text" name="username" placeholder="Username" autofocus />
-      <input type="password" name="password" placeholder="password" />
-      <input type="submit" value="Login" />
-    </form>
+  <div class="container index">
+    <h1>Welcome to Code Snippets!</h1>
+    <div class="form-container">
+
+      <form class="login-signup-form" action="/login" method="POST">
+        <input type="text" name="username" placeholder="Username" autofocus />
+        <input type="password" name="password" placeholder="Password" />
+        <button class="success-button" type="submit">Login</button>
+      </form>
+
+      <p>Need an account? <a href="/signup">Sign up</a></p>
+
+    </div>
     <% if (errors.length > 0) { %>
       <div class="errors">
         <ul>
@@ -19,7 +25,7 @@
       </div>
     <% } %>
   </div>
-  
+
 </div>
 
 <% include partials/_footer %>
