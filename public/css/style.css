@@ -174,4 +174,9 @@ footer {
   color: #aaa;
   text-align: center; }
 
+.api-link {
+  color: green; }
+  .api-link:hover {
+    color: white; }
+
 /*# sourceMappingURL=style.css.map */

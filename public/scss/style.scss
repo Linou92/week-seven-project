@@ -213,3 +213,10 @@ footer {
   color: $color-tertiary;
   text-align: center;
 }
+
+.api-link {
+  color: green;
+  &:hover {
+    color: white;
+  }
+}
