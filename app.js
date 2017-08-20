@@ -8,6 +8,8 @@ const express = require('express'),
       passport = require('passport'),
       session = require('express-session');
 
+require('dotenv').config();
+
 let port = process.env.PORT || 3000;
 
 mongoose.connect('mongodb://localhost:27017/code_snippets', { useMongoClient: true});
