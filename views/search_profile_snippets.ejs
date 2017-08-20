@@ -28,7 +28,7 @@
             <% } %>
           </h2>
           <h3><%= snippet.language %></h3>
-          <h4><a class="creator" href="/snippets/<%= snippet.creator %>"><%= snippet.creator %></a> - <%= snippet.createdAt %></h4>
+          <h4><a class="creator" href="/snippets/user/<%= snippet.creator %>"><%= snippet.creator %></a> - <%= snippet.createdAt %></h4>
           <section class="snippet-code">
             <pre><%= snippet.body %></pre>
           </section>

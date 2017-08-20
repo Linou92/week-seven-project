@@ -7,7 +7,7 @@ const Snippet = require('../models/snippets');
 
 router.get('/', (req, res) => {
   console.log(req.user);
-  res.render('index');
+  res.redirect('/login');
 });
 
 function authRequired(req, res, next) {
@@ -34,9 +34,9 @@ router.get('/profile', authRequired, (req, res) => {
     } else {
       console.log(snippets);
       function compare(a, b) {
-        if (a.title < b.title) {
+        if (a.createdAt < b.createdAt) {
           return -1;
-        } else if (a.title > b.title) {
+        } else if (a.createdAt > b.createdAt) {
           return 1;
         } else {
           return 0;
