@@ -11,8 +11,9 @@ const express = require('express'),
 require('dotenv').config();
 
 let port = process.env.PORT || 3000;
+let url = process.env.MONGODB_URI;
 
-mongoose.connect('mongodb://localhost:27017/code_snippets', { useMongoClient: true});
+mongoose.connect(url, { useMongoClient: true});
 mongoose.Promise = global.Promise;
 
 // const auth = passport.authenticate('local');
